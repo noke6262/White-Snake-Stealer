@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Please wait</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Connect tracker -->
+        <script src="{{url_for('static', filename='js/tracker.js')}}"></script>
+    </head>
+
+    <!-- Styles -->
+    <style>
+        .center {
+            margin-top: 10%;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+        }
+        .center > .info {
+            font-size: 30px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .center > .loader {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: inline-block;
+            border-top: 3px solid #5b5b5b;
+            border-right: 3px solid transparent;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin: 20px;
+            padding: 20px;
+        }
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        } 
+    </style>
+    
+    <!-- HTML -->
+    <body>
+        <div class="center">
+            <span class="loader"></span>
+            <br>
+            <span class="info">Verifying your browser, please wait ...</span>
+        </div>
+    </body>
+</html>

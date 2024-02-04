@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Activation</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/activate.png"/>
+        <!-- Libs -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="lib/css/uikit.min.css"/>
+        <link rel="stylesheet" href="lib/css/builder.css"/>
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/WS_script.js"></script>
+        <script src="lib/js/WS_license.js"></script>
+        <script src="lib/js/iconify-icon.min.js"></script>
+    </head>
+    <body>
+
+        <style>
+            #copy_button { 
+                transition: all 500ms; 
+                font-size: 24px;
+                top: 14px;
+            }
+            #copy_button:hover {
+                color: #1E87F0;
+                cursor: pointer;
+                transition: all 500ms;
+            }
+            .nav-el {
+                margin-top: 18px;
+                cursor: pointer;
+            }
+            .nav-el > p > iconify-icon {
+                position: relative;
+                top: 7px !important;
+                font-size: 24px;
+            }
+        </style>
+
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick='window.open(supportUrl);'>
+                            <iconify-icon icon="ic:baseline-telegram"></iconify-icon> 
+                            Support
+                            <iconify-icon style="color: rgb(21, 174, 21);" icon="svg-spinners:pulse-2"></iconify-icon>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="uk-card uk-card-default uk-card-body">
+            <!-- Device ID -->
+            <label for="identifier">
+                <iconify-icon id="copy_button" onclick="copy_text(document.getElementById('identifier').value);" icon="material-symbols:content-copy-outline"></iconify-icon> Your device identifier
+                <textarea readonly id="identifier" class="uk-textarea">Loading, please wait...</textarea>
+            </label>
+            <!-- License key -->
+            <label for="license_key">
+                Paste license key here
+                <textarea id="license_key" class="uk-textarea"></textarea>
+            </label>
+            <!-- Submit -->
+            <button class="uk-button uk-button-primary" type="button" onclick="activate();">
+                <iconify-icon icon="fluent-mdl2:activate-orders"></iconify-icon> Activate
+            </button>
+        </div>
+
+    </body>
+</html>

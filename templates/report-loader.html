@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decrypting</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/app-logo.ico"/>
+        <!-- Libs -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="lib/css/uikit.min.css"/>
+        <script src="lib/js/iconify-icon.min.js"></script>
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/WS_script.js"></script>
+    </head>
+    <body>
+        
+        <style>
+            #loader {
+                margin-top: 5%;
+                text-align: center;
+            }
+            #status-icon {
+                font-size: 70px;
+            }
+            #download_progress {
+                bottom: -20px;
+                border-radius: 0%;
+                position: fixed;
+                transition: width 1s ease;
+            }
+        </style>
+
+        <script>
+            
+            eel.expose(update_status);
+            function update_status(text, percentage=0) {
+                document.getElementById('download_progress').value = percentage;
+                let icon = document.getElementById('status-icon');
+                if (text.includes('Download')) {
+                    icon.setAttribute('icon', 'line-md:downloading-loop');
+                } else if (text.includes('endering credentials')) {
+                    icon.setAttribute('icon', 'line-md:confirm-circle');
+                } else {
+                    icon.setAttribute('icon', 'line-md:loading-loop');
+                    console.log(text);
+                }
+                document.getElementById('status-text').textContent = text;
+            }
+            
+            // Get report html and inject it
+            async function load_report() {
+                let path = new URLSearchParams(window.location.search).get('path');
+                let content = (await eel.view_report(path)());
+                document.open();
+                document.write(content);
+                document.close();
+            }
+
+            window.addEventListener('load', (e) => {
+                load_report();
+            });
+        </script>
+
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="loader">
+            <iconify-icon id="status-icon" icon="line-md:loading-loop"></iconify-icon>
+            <h2 id="status-text">Decryption in progress ...</h2>
+        </div>
+        
+        <progress id="download_progress" class="uk-progress" value="0" max="100"></progress>
+    </body>
+</html>

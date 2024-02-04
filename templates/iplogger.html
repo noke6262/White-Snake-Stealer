@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IPLogger</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/iplogger.ico"/>
+        <!-- Libs -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="lib/css/uikit.min.css"/>
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/platform.js"></script>
+        <link rel="stylesheet" href="lib/css/iplogger.css"/>
+        <script src="lib/js/WS_script.js"></script>
+        <script src="lib/js/iplogger.js"></script>
+        <script src="lib/js/iconify-icon.min.js"></script>
+    </head>
+    <body>
+
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick='window.open(supportUrl);'>
+                            <iconify-icon icon="ic:baseline-telegram"></iconify-icon> 
+                            Support
+                            <iconify-icon style="color: rgb(21, 174, 21);" icon="svg-spinners:pulse-2"></iconify-icon>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Info -->
+        <div class="uk-card uk-card-default uk-card-body">
+            <iconify-icon icon="svg-spinners:pulse-2"></iconify-icon> Serving tracker on url:
+            <div class="uk-inline" style="width: 100%;">
+                <iconify-icon class="uk-form-icon" icon="mdi:server"></iconify-icon>
+                <!-- <a class="uk-form-icon uk-form-icon-flip" href="" uk-icon="icon: user"></a> -->
+                <input id="serving_url" class="uk-input" type="text" placeholder="Loading, please wait..." value="" readonly aria-label="" onclick="copy_text(this.value);">
+            </div>
+         </div>
+
+        <!-- Dashboard -->
+        <div class="uk-card uk-card-default uk-card-body">
+            <table class="uk-table uk-table-justify uk-table-middle">
+                <thead>
+                    <tr>
+                        <th><iconify-icon icon="icon-park-outline:browser"></iconify-icon> Browser / Device</th>
+                        <th><iconify-icon icon="eos-icons:ip"></iconify-icon> IP / ISP</th>
+                        <th><iconify-icon icon="carbon:map"></iconify-icon> Country / City</th>
+                        <th><iconify-icon icon="clarity:date-line"></iconify-icon> Date</th>
+                        <th><iconify-icon icon="grommet-icons:action"></iconify-icon> Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-data">
+                </tbody>
+            </table>
+         </div>
+
+    </body>
+</html>

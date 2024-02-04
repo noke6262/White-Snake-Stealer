@@ -1,0 +1,20 @@
+{
+    "UserAgent":"mingcute:device-line",
+    "CPUCount":"ph:cpu-bold",
+    "Screen":"jam:screen",
+    "RAM":"game-icons:ram",
+    "TouchPoints":"mdi:gesture-touch-button",
+    "Render":"bi:gpu-card",
+    "Devices":"wpf:speaker",
+    "SpeechVoices":"material-symbols:mic",
+    "Geolocation":"solar:gps-bold",
+    "IPInfo":"eos-icons:ip",
+    "LocalIP":"eos-icons:ip-outlined",
+    "Language":"material-symbols:language",
+    "Timezone":"mdi:timezone",
+    "Plugins":"dashicons:admin-plugins",
+    "Url":"simple-icons:aiohttp",
+    "FeatureSupport":"material-symbols:cookie",
+    "Battery":"ic:outline-battery-60",
+    "CurrentTimestamp":"subway:time-2"
+ }

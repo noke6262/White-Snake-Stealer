@@ -1,0 +1,26 @@
+/* Colors setup */
+:root {
+    --bg-color_1: #646464;
+    --bg-color_2: #666666;
+    --bg-color_3: #191919;
+    --bg-color_4: #121212;
+    --text-color: #cecece;
+}
+
+/* Apply theme */
+html, body { background-color: var(--bg-color_3); margin: 0 !important; padding: 0 !important; }
+.uk-navbar-container, .uk-modal-dialog, .uk-modal-footer, div[uk-dropdown] { background-color: var(--bg-color_4) !important; }
+.uk-card, .uk-progress { background-color: var(--bg-color_4) !important; }
+.uk-input, .uk-select, .uk-textarea, .uk-icon-button, .uk-notification-message { background-color: var(--bg-color_3) !important; color: var(--text-color) !important; border: none; }
+#loader > div[uk-spinner], #loader > h2, label, .uk-accordion-title, th, td, .uk-modal-title, .uk-button, #system-info, option, .uk-icon-button { color: var(--text-color) !important; }
+.nav-el, .uk-modal-dialog, h2 { color: var(--text-color); }
+::-webkit-scrollbar { width: 8px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: var(--bg-color_2); }
+::-webkit-scrollbar-track {  background-color: var(--bg-color_1);}
+::-webkit-scrollbar-track-piece { background-color: var(--bg-color_3);}
+::-webkit-scrollbar-thumb { height: 50px; background-color: var(--bg-color_2); border-radius: 3px;}
+::-webkit-scrollbar-corner { background-color: var(--bg-color_1);}
+::-webkit-resizer { background-color: var(--bg-color_2); }
+button:disabled { background-color: #212121 !important; }
+#stream-image { border: var(--bg-color_4) 5px solid !important; }
+#netdiscover-values { color: var(--text-color); }

